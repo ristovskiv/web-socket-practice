@@ -1,7 +1,9 @@
 -if @product.auction.top_bid
   -if @product.auction.top_bid.user_id == current_user.id
-    You won the auction!
+    %p You won the auction!
+    %p
+      =link_to 'Claim this product', transfer_product_path(@product), class: "btn btn-primary", method: :put
   -else
-    You lost the auction.
+    %p You lost the auction.
 -else
-  No bids were placed.
+  %p No bids were placed.
