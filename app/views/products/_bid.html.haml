@@ -1,10 +1,23 @@
 - if @product.has_auction?
-  =form_for [ @product, @product.auction, Bid.new ] do |f|
-    %p
-      %strong
-        Current bid:
-        =@product.auction.current_bid
+  -if @product.auction.ended?
+    =render "auctions/status"
+  -else
+    =form_for [ @product, @product.auction, Bid.new ] do |f|
+      %p
+        %strong
+          -if @product.auction.top_bid      
+            -if @product.auction.top_bid.user_id == current_user.id
+              Current bid:
+            -else
+              You were outbid:
+          -else
+            Initial value:
 
-    %p
-      =f.text_field :value
-      =f.button
+          =@product.auction.current_bid
+
+      %p
+        Ends at: #{l(@product.auction.ends_at, format: :short)}
+
+      %p
+        =f.text_field :value
+        =f.button

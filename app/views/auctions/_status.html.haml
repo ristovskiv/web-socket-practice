@@ -1,0 +1,7 @@
+-if @product.auction.top_bid
+  -if @product.auction.top_bid.user_id == current_user.id
+    You won the auction!
+  -else
+    You lost the auction.
+-else
+  No bids were placed.
