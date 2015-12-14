@@ -5,6 +5,7 @@ class ProductsController < ApplicationController
   # GET /products.json
   def index
     @products = Product.all
+    puts "\n\n REQUEST HOST #{request.host}\n\n"
   end
 
   # GET /products/1
