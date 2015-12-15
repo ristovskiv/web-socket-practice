@@ -11,11 +11,11 @@ class AuctionSocket
     @socket.onmessage = (e)=>
       tokens = e.data.split(' ')
       switch tokens[0]
-        when 'bidok'    then @bid
+        when 'bidok'    then @bid()
         when 'underbid' then @underbid(tokens[1])
         when 'outbid'   then @outbid(tokens[1])
-        when 'won'      then @won
-        when 'lost'     then @lost
+        when 'won'      then @won()
+        when 'lost'     then @lost()
       console.log e
 
   sendBid: (value)->
@@ -29,12 +29,12 @@ class AuctionSocket
 
   underbid: (value)->
     @$form.find('.message strong').html(
-      "Your bid is under #{@value}."
+      "Your bid is under #{value}."
     )
 
   outbid: (value)->
     @$form.find('.message strong').html(
-      "You were outbid. It is now #{@value}."
+      "You were outbid. It is now #{value}."
     )
 
   won: ->

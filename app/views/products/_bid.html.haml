@@ -3,7 +3,7 @@
     =render "auctions/status"
   -else
     =form_for [ @product, @product.auction, Bid.new ] do |f|
-      %p
+      %p.message
         %strong
           -if @product.auction.top_bid      
             -if @product.auction.top_bid.user_id == current_user.id
