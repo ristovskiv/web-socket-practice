@@ -1,12 +1,14 @@
 class AuctionSocket
   def initialize(app)
     @app = app
+    @clients = []
   end
 
   def call(env)
     @env = env
     if socket_request?
       socket = spawn_socket
+      @clients << socket
       socket.rack_response
     else
       @app.call env 
@@ -56,8 +58,15 @@ class AuctionSocket
 
     if service.execute
       socket.send 'bidok'
+      notify_outbids socket, tokens[2]
     else
       socket.send "underbid #{service.auction.current_bid}"
+    end
+  end
+
+  def notify_outbids(socket, value)
+    @clients.reject{|client| client == socket}.each do |client|
+      client.send "outbid #{value}"
     end
   end
 end
